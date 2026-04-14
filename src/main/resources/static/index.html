@@ -284,8 +284,8 @@
   </p>
 
   <script>
-    /* ── Backend base URL – change this if needed ── */
-    const API_BASE = 'http://localhost:8080/api/auth';
+    /* ── Backend base URL – uses relative path so it works regardless of host/port ── */
+    const API_BASE = '/api/auth';
 
     /* ── Tab switching ── */
     function switchTab(tab) {
