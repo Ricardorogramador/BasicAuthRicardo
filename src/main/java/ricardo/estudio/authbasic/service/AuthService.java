@@ -18,7 +18,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final  JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
     public AuthService(UserRepository userRepository, JwtService jwtService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
@@ -40,6 +40,21 @@ public class AuthService {
 
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(new AuthResponse(token, newUser.getEmail(), newUser.getName()));
+    }
+
+    public ResponseEntity<AuthResponse> registerAdmin(RegisterRequest request){
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
+        User newUser = User.builder()
+                .name(request.getName())
+                .email(request.getEmail())
+                .password(encodedPassword)
+                .role(Role.ADMIN)
+                .build();
+        userRepository.save(newUser);
+        String token = jwtService.generateToken(newUser);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new AuthResponse(token, newUser.getEmail(), newUser.getName()));
     }
 
     public ResponseEntity<AuthResponse> login(LoginRequest request){

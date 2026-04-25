@@ -1,89 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BasicAuth – Demo Frontend</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BasicAuth Demo</title>
   <style>
-    /* ── Reset & base ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 1.5rem;
       color: #e0e0e0;
+      padding: 1rem;
     }
 
-    /* ── AI / demo banner ── */
-    .ai-banner {
-      background: linear-gradient(90deg, #e91e63, #9c27b0);
-      color: #fff;
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      text-align: center;
-      padding: 0.45rem 1rem;
-      border-radius: 50px;
-      margin-bottom: 1.4rem;
-      box-shadow: 0 2px 12px rgba(233, 30, 99, 0.45);
-      max-width: 480px;
-      width: 100%;
-    }
-
-    /* ── Card ── */
-    .card {
+    .container {
       background: rgba(255, 255, 255, 0.06);
       backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 16px;
-      padding: 2.2rem 2.5rem;
+      padding: 2rem;
       width: 100%;
-      max-width: 440px;
+      max-width: 400px;
       box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
     }
 
-    .card-header {
+    h1 {
       text-align: center;
-      margin-bottom: 1.8rem;
-    }
-
-    .card-header h1 {
-      font-size: 1.65rem;
-      font-weight: 700;
+      margin-bottom: 2rem;
       color: #e2e8f0;
-      margin-bottom: 0.3rem;
     }
 
-    .card-header p {
-      font-size: 0.85rem;
-      color: #94a3b8;
-    }
-
-    /* ── Tab switcher ── */
     .tabs {
       display: flex;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 8px;
       overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.15);
-      margin-bottom: 1.8rem;
     }
 
     .tab-btn {
       flex: 1;
-      padding: 0.55rem;
+      padding: 0.75rem;
       background: transparent;
       border: none;
       color: #94a3b8;
-      font-size: 0.9rem;
-      font-weight: 600;
       cursor: pointer;
-      transition: background 0.2s, color 0.2s;
+      transition: all 0.3s;
+      font-weight: 600;
     }
 
     .tab-btn.active {
@@ -91,310 +63,281 @@
       color: #e2e8f0;
     }
 
-    /* ── Form ── */
     .form-group {
-      margin-bottom: 1.1rem;
+      margin-bottom: 1rem;
     }
 
     label {
       display: block;
-      font-size: 0.82rem;
-      font-weight: 600;
+      margin-bottom: 0.5rem;
       color: #94a3b8;
-      margin-bottom: 0.35rem;
+      font-size: 0.9rem;
+      font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
     }
 
     input {
       width: 100%;
-      padding: 0.72rem 1rem;
+      padding: 0.75rem 1rem;
       background: rgba(255, 255, 255, 0.07);
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 8px;
       color: #e2e8f0;
-      font-size: 0.95rem;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      font-size: 1rem;
     }
 
-    input::placeholder { color: #475569; }
+    input::placeholder {
+      color: #475569;
+    }
 
     input:focus {
+      outline: none;
       border-color: #3b82f6;
       box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
     }
 
-    /* ── Submit button ── */
-    .btn-submit {
+    button {
       width: 100%;
-      padding: 0.78rem;
-      margin-top: 0.5rem;
+      padding: 0.75rem;
       background: linear-gradient(135deg, #3b82f6, #1d4ed8);
       border: none;
       border-radius: 8px;
-      color: #fff;
-      font-size: 1rem;
+      color: white;
       font-weight: 700;
       cursor: pointer;
-      transition: opacity 0.2s, transform 0.1s;
-      letter-spacing: 0.02em;
+      transition: all 0.3s;
+      font-size: 1rem;
     }
 
-    .btn-submit:hover { opacity: 0.9; }
-    .btn-submit:active { transform: scale(0.98); }
-    .btn-submit:disabled { opacity: 0.55; cursor: not-allowed; }
+    button:hover {
+      opacity: 0.9;
+    }
 
-    /* ── Alert messages ── */
+    button:active {
+      transform: scale(0.98);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
     .alert {
-      display: none;
+      margin-top: 1rem;
       padding: 0.75rem 1rem;
       border-radius: 8px;
-      font-size: 0.88rem;
-      margin-top: 1rem;
-      font-weight: 500;
-      word-break: break-word;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    .alert.show {
+      display: block;
     }
 
     .alert.success {
       background: rgba(16, 185, 129, 0.18);
       border: 1px solid rgba(16, 185, 129, 0.45);
       color: #6ee7b7;
-      display: block;
     }
 
     .alert.error {
       background: rgba(239, 68, 68, 0.18);
       border: 1px solid rgba(239, 68, 68, 0.45);
       color: #fca5a5;
-      display: block;
     }
 
-    /* ── Token box ── */
-    .token-box {
-      display: none;
+    .token-display {
       margin-top: 1rem;
-      padding: 0.8rem;
-      background: rgba(0,0,0,0.3);
-      border: 1px solid rgba(255,255,255,0.1);
+      padding: 0.75rem;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 8px;
       font-size: 0.75rem;
       color: #7dd3fc;
       word-break: break-all;
+      display: none;
     }
 
-    .token-box strong {
+    .token-display.show {
       display: block;
-      color: #94a3b8;
-      margin-bottom: 0.3rem;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
     }
-
-    /* ── Footer note ── */
-    .footer-note {
-      margin-top: 1.6rem;
-      text-align: center;
-      font-size: 0.75rem;
-      color: #475569;
-      max-width: 440px;
-      line-height: 1.5;
-    }
-
-    .footer-note a {
-      color: #60a5fa;
-      text-decoration: none;
-    }
-
-    /* ── Hidden helper ── */
-    .hidden { display: none !important; }
   </style>
 </head>
 <body>
+<div class="container">
+  <h1>🔐 BasicAuth</h1>
 
-  <!-- AI / Demo disclaimer banner -->
-  <div class="ai-banner">
-    🤖 DEMO FRONTEND — Created with AI &nbsp;|&nbsp; Backend developed by Ricardo
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('login')">Login</button>
+    <button class="tab-btn" onclick="switchTab('register')">Register</button>
   </div>
 
-  <!-- Main card -->
-  <div class="card">
-
-    <div class="card-header">
-      <h1>🔐 BasicAuth</h1>
-      <p>Basic Authentication System – Java Spring Boot</p>
+  <!-- Login Form -->
+  <form id="loginForm" onsubmit="handleLogin(event)">
+    <div class="form-group">
+      <label for="loginEmail">Email</label>
+      <input type="email" id="loginEmail" placeholder="user@example.com" required>
     </div>
-
-    <!-- Tab switcher -->
-    <div class="tabs">
-      <button class="tab-btn active" id="tab-login" onclick="switchTab('login')">Login</button>
-      <button class="tab-btn" id="tab-register" onclick="switchTab('register')">Register</button>
+    <div class="form-group">
+      <label for="loginPassword">Password</label>
+      <input type="password" id="loginPassword" placeholder="••••••••" required>
     </div>
+    <button type="submit" id="loginBtn">Sign In</button>
+    <div id="loginAlert" class="alert"></div>
+    <div id="loginToken" class="token-display"></div>
+  </form>
 
-    <!-- ── Login form ── -->
-    <form id="login-form" onsubmit="handleLogin(event)">
-      <div class="form-group">
-        <label for="login-email">Email</label>
-        <input id="login-email" type="email" placeholder="user@example.com" required />
-      </div>
-      <div class="form-group">
-        <label for="login-password">Password</label>
-        <input id="login-password" type="password" placeholder="••••••••" required />
-      </div>
-      <button class="btn-submit" type="submit" id="login-btn">Sign In</button>
-      <div class="alert" id="login-alert"></div>
-      <div class="token-box" id="login-token">
-        <strong>JWT Token</strong>
-        <span id="login-token-value"></span>
-      </div>
-    </form>
+  <!-- Register Form -->
+  <form id="registerForm" class="hidden" onsubmit="handleRegister(event)">
+    <div class="form-group">
+      <label for="registerName">Full Name</label>
+      <input type="text" id="registerName" placeholder="John Doe" required>
+    </div>
+    <div class="form-group">
+      <label for="registerEmail">Email</label>
+      <input type="email" id="registerEmail" placeholder="user@example.com" required>
+    </div>
+    <div class="form-group">
+      <label for="registerPassword">Password (min 7 chars)</label>
+      <input type="password" id="registerPassword" placeholder="••••••••" minlength="7" required>
+    </div>
+    <button type="submit" id="registerBtn">Create Account</button>
+    <div id="registerAlert" class="alert"></div>
+    <div id="registerToken" class="token-display"></div>
+  </form>
+</div>
 
-    <!-- ── Register form ── -->
-    <form id="register-form" class="hidden" onsubmit="handleRegister(event)">
-      <div class="form-group">
-        <label for="reg-name">Full Name</label>
-        <input id="reg-name" type="text" placeholder="John Doe" required />
-      </div>
-      <div class="form-group">
-        <label for="reg-email">Email</label>
-        <input id="reg-email" type="email" placeholder="user@example.com" required />
-      </div>
-      <div class="form-group">
-        <label for="reg-password">Password <small style="color:#64748b">(min 7 chars)</small></label>
-        <input id="reg-password" type="password" placeholder="••••••••" minlength="7" required />
-      </div>
-      <button class="btn-submit" type="submit" id="register-btn">Create Account</button>
-      <div class="alert" id="register-alert"></div>
-      <div class="token-box" id="register-token">
-        <strong>JWT Token</strong>
-        <span id="register-token-value"></span>
-      </div>
-    </form>
+<script>
+  const API_BASE = 'http://localhost:8080/api/auth';
 
-  </div>
+  function switchTab(tab) {
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const tabs = document.querySelectorAll('.tab-btn');
 
-  <p class="footer-note">
-    ⚠️ This is a <strong>demonstration frontend</strong> created with AI assistance.<br />
-    The backend (Java / Spring Boot / Spring Security / JWT) was
-    <strong>developed directly by Ricardo</strong>.<br />
-    Backend default URL: <code>http://localhost:8080</code>
-    &nbsp;|&nbsp;
-    <a href="https://github.com/Ricardorogramador/BasicAuthRicardo" target="_blank">GitHub Repo</a>
-  </p>
-
-  <script>
-    /* ── Backend base URL – change this if needed ── */
-    const API_BASE = 'http://localhost:8080/api/auth';
-
-    /* ── Tab switching ── */
-    function switchTab(tab) {
-      document.getElementById('login-form').classList.toggle('hidden', tab !== 'login');
-      document.getElementById('register-form').classList.toggle('hidden', tab !== 'register');
-      document.getElementById('tab-login').classList.toggle('active', tab === 'login');
-      document.getElementById('tab-register').classList.toggle('active', tab === 'register');
-      clearAlerts();
+    if (tab === 'login') {
+      loginForm.classList.remove('hidden');
+      registerForm.classList.add('hidden');
+      tabs[0].classList.add('active');
+      tabs[1].classList.remove('active');
+    } else {
+      loginForm.classList.add('hidden');
+      registerForm.classList.remove('hidden');
+      tabs[0].classList.remove('active');
+      tabs[1].classList.add('active');
     }
+    clearAlerts();
+  }
 
-    function clearAlerts() {
-      ['login-alert', 'register-alert'].forEach(id => {
-        const el = document.getElementById(id);
-        el.className = 'alert';
-        el.textContent = '';
-      });
-      ['login-token', 'register-token'].forEach(id => {
-        document.getElementById(id).style.display = 'none';
-      });
-    }
-
-    function showAlert(id, type, message) {
+  function clearAlerts() {
+    ['loginAlert', 'registerAlert'].forEach(id => {
       const el = document.getElementById(id);
-      el.className = 'alert ' + type;
-      el.textContent = message;
-    }
+      el.classList.remove('show', 'success', 'error');
+      el.textContent = '';
+    });
+    ['loginToken', 'registerToken'].forEach(id => {
+      document.getElementById(id).classList.remove('show');
+    });
+  }
 
-    /* ── Login handler ── */
-    async function handleLogin(event) {
-      event.preventDefault();
-      const btn = document.getElementById('login-btn');
-      const email = document.getElementById('login-email').value.trim();
-      const password = document.getElementById('login-password').value;
+  function showAlert(elementId, message, type) {
+    const el = document.getElementById(elementId);
+    el.textContent = message;
+    el.className = `alert show ${type}`;
+  }
 
-      btn.disabled = true;
-      btn.textContent = 'Signing in…';
-      clearAlerts();
+  function showToken(elementId, token) {
+    const el = document.getElementById(elementId);
+    el.textContent = `Token: ${token}`;
+    el.classList.add('show');
+  }
 
-      try {
-        const res = await fetch(`${API_BASE}/login`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
-        });
+  async function handleLogin(event) {
+    event.preventDefault();
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const btn = document.getElementById('loginBtn');
 
-        const data = await res.json().catch(() => ({}));
+    btn.disabled = true;
+    btn.textContent = 'Signing in...';
+    clearAlerts();
 
-        if (res.ok) {
-          showAlert('login-alert', 'success', '✅ Login successful! JWT token received.');
-          if (data.token) {
-            const tokenBox = document.getElementById('login-token');
-            document.getElementById('login-token-value').textContent = data.token;
-            tokenBox.style.display = 'block';
-          }
-        } else {
-          const msg = data.message || data.error || `Error ${res.status}: Authentication failed.`;
-          showAlert('login-alert', 'error', '❌ ' + msg);
+    try {
+      const response = await fetch(`${API_BASE}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        showAlert('loginAlert', '✅ Login successful!', 'success');
+        if (data.token) {
+          localStorage.setItem('authToken', data.token);
+          showToken('loginToken', data.token);
         }
-      } catch (err) {
-        showAlert('login-alert', 'error',
-          '❌ Could not connect to the backend. Make sure the server is running on ' + API_BASE);
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'Sign In';
+        document.getElementById('loginForm').reset();
+      } else {
+        const errorMsg = data.message || data.error || 'Login failed';
+        showAlert('loginAlert', `❌ ${errorMsg}`, 'error');
       }
+    } catch (error) {
+      showAlert('loginAlert', `❌ Connection error: ${error.message}`, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Sign In';
     }
+  }
 
-    /* ── Register handler ── */
-    async function handleRegister(event) {
-      event.preventDefault();
-      const btn = document.getElementById('register-btn');
-      const name = document.getElementById('reg-name').value.trim();
-      const email = document.getElementById('reg-email').value.trim();
-      const password = document.getElementById('reg-password').value;
+  async function handleRegister(event) {
+    event.preventDefault();
+    const name = document.getElementById('registerName').value.trim();
+    const email = document.getElementById('registerEmail').value.trim();
+    const password = document.getElementById('registerPassword').value;
+    const btn = document.getElementById('registerBtn');
 
-      btn.disabled = true;
-      btn.textContent = 'Creating account…';
-      clearAlerts();
+    btn.disabled = true;
+    btn.textContent = 'Creating account...';
+    clearAlerts();
 
-      try {
-        const res = await fetch(`${API_BASE}/register`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, password })
-        });
+    try {
+      const response = await fetch(`${API_BASE}/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({ name, email, password })
+      });
 
-        const data = await res.json().catch(() => ({}));
+      const data = await response.json();
 
-        if (res.ok) {
-          showAlert('register-alert', 'success',
-            '✅ Account created! You can now sign in with your credentials.');
-          if (data.token) {
-            const tokenBox = document.getElementById('register-token');
-            document.getElementById('register-token-value').textContent = data.token;
-            tokenBox.style.display = 'block';
-          }
-        } else {
-          const msg = data.message || data.error || `Error ${res.status}: Registration failed.`;
-          showAlert('register-alert', 'error', '❌ ' + msg);
+      if (response.ok) {
+        showAlert('registerAlert', '✅ Account created! You can now login.', 'success');
+        if (data.token) {
+          localStorage.setItem('authToken', data.token);
+          showToken('registerToken', data.token);
         }
-      } catch (err) {
-        showAlert('register-alert', 'error',
-          '❌ Could not connect to the backend. Make sure the server is running on ' + API_BASE);
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'Create Account';
+        document.getElementById('registerForm').reset();
+      } else {
+        const errorMsg = data.message || data.error || 'Registration failed';
+        showAlert('registerAlert', `❌ ${errorMsg}`, 'error');
       }
+    } catch (error) {
+      showAlert('registerAlert', `❌ Connection error: ${error.message}`, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Create Account';
     }
-  </script>
-
+  }
+</script>
 </body>
 </html>

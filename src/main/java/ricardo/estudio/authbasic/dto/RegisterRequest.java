@@ -13,6 +13,4 @@ public class RegisterRequest {
     private String email;
     @NotBlank(message = "Can not be empty") @Size(min = 7, message = "Password must be at least 7 letters")
     private String password;
-
-
 }

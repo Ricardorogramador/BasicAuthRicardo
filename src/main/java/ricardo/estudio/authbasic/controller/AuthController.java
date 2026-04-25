@@ -28,6 +28,11 @@ public class AuthController {
         return authService.register(request);
     }
 
+    @PostMapping("/register/admin")
+    public ResponseEntity<AuthResponse> registerAdmin(@RequestBody @Valid RegisterRequest request){
+        return authService.registerAdmin(request);
+    }
+
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest){
         return authService.login(loginRequest);
